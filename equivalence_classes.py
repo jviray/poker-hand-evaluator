@@ -65,3 +65,41 @@ for house in full_houses:
 	ec_table[key] = house
 	
 	i += 1
+
+# GENERATE Flushes (1277):
+def gen_flushes():
+	result = []
+	for i in range(0, 9):
+		flushes = []
+		flush = [cards[i]]
+		end = 9 if i == 0 else 10
+		for i2 in range(i+1, end):
+			flush.append(cards[i2])
+			for i3 in range(i2+1, 11):
+				flush.append(cards[i3])
+				for i4 in range(i3+1, 12):
+					flush.append(cards[i4])
+					for i5 in range(i4+1, 13):
+						flush.append(cards[i5])
+						flushes.append(flush)
+						flush = flush[:-1]
+					flush = flush[:-1]
+				flush = flush[:-1]	
+			flush = flush[:-1]
+		
+		for num, flush in enumerate(flushes):
+			if num == 0:
+				continue
+			else:
+				result.append(flush)
+	
+	return result
+
+# POPULATE ec_table w/ Flushes:
+i = 323
+flushes = gen_flushes()
+for flush in flushes:
+	key = str(i)
+	ec_table[key] = flush
+	
+	i += 1
