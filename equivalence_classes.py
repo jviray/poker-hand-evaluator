@@ -103,3 +103,61 @@ for flush in flushes:
 	ec_table[key] = flush
 	
 	i += 1
+
+# GENERATE Straights (10):
+def gen_straights():
+	straights = []
+	for i, card in enumerate(cards[:10]):
+		straights.append(cards[i+14:i+18])
+		straights[-1].insert(0, card)
+	
+	return straights
+
+# POPULATE ec_table w/ Straights:
+i = 1600 
+straights = gen_straights()
+for straight in straights:
+	key = str(i)
+	ec_table[key] = straight
+	
+	i += 1 
+
+# GENERATE Three of a Kinds (858):
+def gen_threes():
+	threes = []
+	for i, card in enumerate(cards[:13]):
+		three = [card, cards[i+13], cards[i+26]]
+		
+		for i2 in range(12):
+			if cards[i2].rank == card.rank:
+				continue
+			else:
+				three.append(cards[i2])
+				
+				for i3 in range(i2+1,13):
+					if cards[i3].rank == card.rank:
+						continue
+					else:
+						three.append(cards[i3])
+						threes.append(three)
+					
+						three = three[:-1]
+				three = three[:-1]
+		three = []
+	
+	return threes
+
+# POPULATE ec_table w/ Three of a Kinds:
+i = 1610
+threes = gen_threes()
+for three in threes:
+	key = str(i)
+	ec_table[key] = three
+	
+	i += 1 
+
+# Prints entire ec_table:
+for k, v in ec_table.items():
+	for card in v:
+		print(card, end=' ')
+	print()
